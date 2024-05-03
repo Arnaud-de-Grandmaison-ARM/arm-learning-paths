@@ -8,6 +8,7 @@ who_is_this_for: This is an advanced topic for developers who want to learn how 
 learning_objectives:
     - Develop a new C++ library
     - Test the library, ensuring it does not regress functionally
+    - Document the library
 
 prerequisites:
     - An Arm based computer running Linux, macOS, or Windows
@@ -30,6 +31,7 @@ tools_software_languages:
     - Clang
     - CMake
     - GoogleTest
+    - Doxygen
 operatingsystems:
     - Linux
     - macOS
