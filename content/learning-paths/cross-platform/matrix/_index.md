@@ -9,6 +9,8 @@ learning_objectives:
     - Develop a new C++ library
     - Test the library, ensuring it does not regress functionally
     - Document the library
+    - Benchmark the library, ensuring it does not regress in performance
+    - Optimize it
 
 prerequisites:
     - An Arm based computer running Linux, macOS, or Windows
@@ -32,6 +34,7 @@ tools_software_languages:
     - CMake
     - GoogleTest
     - Doxygen
+    - benchmark
 operatingsystems:
     - Linux
     - macOS

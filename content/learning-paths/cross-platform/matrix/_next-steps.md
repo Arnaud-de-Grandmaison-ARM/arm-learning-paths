@@ -12,7 +12,14 @@ further_reading:
         title: Quickstart Building with CMake
         link: https://google.github.io/googletest/quickstart-cmake.html
         type: documentation
-
+    - resource:
+        title: Learn about Autovectorization
+        link: https://learn.arm.com/learning-paths/cross-platform/loop-reflowing/
+        type: website
+    - resource:
+        title: Learn about Integer and floating-point conversions
+        link: https://learn.arm.com/learning-paths/cross-platform/integer-vs-floats/
+        type: website
 
 # ================================================================================
 #       FIXED, DO NOT MODIFY
