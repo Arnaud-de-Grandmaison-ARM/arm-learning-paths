@@ -11,6 +11,7 @@ learning_objectives:
     - Document the library
     - Benchmark the library, ensuring it does not regress in performance
     - Optimize it
+    - Make it ready for upcoming instructions
 
 prerequisites:
     - An Arm based computer running Linux, macOS, or Windows
