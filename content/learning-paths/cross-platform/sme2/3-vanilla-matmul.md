@@ -1,0 +1,58 @@
+---
+title: Vanilla matrix multiplication
+weight: 4
+
+### FIXED, DO NOT MODIFY
+layout: learningpathall
+---
+
+In this chapter, you will write a by-the-book matrix multiplication in C.
+
+## Vanilla matrix multiplication
+
+### Algorithm description
+
+The vanilla matrix multiplication operation takes two input matrices, A [Al
+lines x Ac columns] and B [Bl lines x Bc columns], to produce an output matrix C
+[Cl lines x Cc columns]. The operation consists in iterating on each row of A
+and column of B, multiplying each element of the A row with its corresponding
+element in the B column then summing all these products. This implies that the
+A, B and C matrices have some constraint on their dimensions:
+
+- A's number of columns need to match B's number of lines: Ac == Bl
+- C will have dimensions Cl == Al and Cc == Bc
+
+### C implementation
+
+A literal implementation of the above algorithm can be found in ``matmul_vanilla.c``:
+
+```C
+void matmul(uint64_t M, uint64_t K, uint64_t N,
+            const float *restrict matLeft, const float *restrict matRight,
+            float *restrict matResult) {
+    for (uint64_t m = 0; m < M; m++) {
+        for (uint64_t n = 0; n < N; n++) {
+
+            float acc = 0.0;
+
+            for (uint64_t k = 0; k < K; k++)
+                acc += matLeft[m * K + k] * matRight[k * N + n];
+
+            matResult[m * N + n] = acc;
+        }
+    }
+}
+```
+
+In this learning path, the matrices are layed in memory as a contiguous
+sequences of elements, in row major order. The ``matmul`` function performs the
+algorithm that was described above. The pointers to A, B and C have been
+annotated as ``restrict``, which informs the compiler that the memory areas
+designated by those pointer do not alias (i.e. they do not overlap in any way),
+so the compiler does not need to insert extra instructions to deal with those
+cases. The pointers to ``matLeft`` and ``matRight`` are marked as ``const``
+because none of these 2 matrices are modified by ``matmul``.
+
+You now have a reference matrix multiplication function. It will be used later
+on in this learning path to ensure that the assembly version or the intrinsics
+version have been coded with no mistake.
