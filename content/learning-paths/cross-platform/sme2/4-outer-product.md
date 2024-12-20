@@ -11,7 +11,7 @@ used to improve matrix multiplication.
 
 ## Matrix multiplication with the outer product
 
-In our text book matrix multiplication example, the core of the computation:
+In our textbook matrix multiplication example, the core of the computation:
 
 ```C
                 acc += matLeft[m * K + k] * matRight[k * N + n];
@@ -40,12 +40,12 @@ multiplication can be expressed as the
 
 ## About transposition
 
-From the previous page, you remember that matrices are laid out in row-major
+From the previous page, you will recall that matrices are laid out in row-major
 order. This means that loading row-data from memory is efficient as the memory
 system operates efficiently with contiguous data, e.g. caches are loaded line by
-line, data prefetching is dead easy (just load the data from the current address
-+ size of the data), ... This is not the case for loading column-data from
-memory though.
+line, data prefetching is extremely simple (just load the data from
+``current address + sizeof(data)``), ... This is not the case for loading column-data from
+memory though, as it requires more work from the memory system.
 
 In order to further improve the effectiveness of the matrix multiplication, it
 is thus desirable to change the layout in memory of the left hand side matrix
@@ -63,7 +63,7 @@ be in column-major order --- from a mathematical perspective, ``matleft`` is
 
 ### Transposition in the real world
 
-As much as trees don't grow to the sky, the SME engine has physical
+Just as trees don't grow to the sky, the SME engine has physical
 implementation limits. It operates with so called tiles in the ZA storage. Tiles
 are 2D portions of the matrices being processed. SME has dedicated instructions
 to load data to / store data from tiles efficiently, as well as instructions to
@@ -78,7 +78,7 @@ Taking into account that the ZA storage is finite, the desirable transposition
 of the ``matLeft`` matrix that was discussed in the previous section needs to
 adapted to the tile dimensions, so that a tile is easy to access. The
 ``matLeft`` preprocessing has thus some aspects of transpositions, but takes
-into account the tiling aspects as well and is referred to in the code as
+into account the tiling as well and is referred to in the code as
 ``preprocess``.
 
 Here is at the algorithmic level what ``preprocess_l`` does in practice:
@@ -87,16 +87,23 @@ Here is at the algorithmic level what ``preprocess_l`` does in practice:
 void preprocess_l(uint64_t nbr, uint64_t nbc, uint64_t SVL,
                   const float *restrict a, float *restrict a_mod) {
 
-    // For all blocks of SVL x SVL data
-    for (uint64_t By = 0; By < nbr; By += SVL)
+    // For all tiles of SVL x SVL data
+    for (uint64_t By = 0; By < nbr; By += SVL) {
         for (uint64_t Bx = 0; Bx < nbc; Bx += SVL) {
-            // For this block of data
+            // For this tile
             const uint64_t dest = By * nbc + Bx * SVL;
-            for (uint64_t j = 0; j < SVL; j++)
-                for (uint64_t i = 0; i < SVL && (Bx + i) < nbc; i++)
-                    a_mod[dest + i * SVL + j] =
-                        By + j < nbr ? a[(By + j) * nbc + Bx + i] : 0.0;
+            for (uint64_t j = 0; j < SVL; j++) {
+                for (uint64_t i = 0; i < SVL && (Bx + i) < nbc; i++) {
+                    if (By + j < nbr) {
+                        a_mod[dest + i * SVL + j] = a[(By + j) * nbc + Bx + i];
+                    } else {
+                        // These elements are outside of matrix a, so zero them.
+                        a_mod[dest + i * SVL + j] = 0.0;
+                    }
+                }
+            }
         }
+    }
 }
 ```
 

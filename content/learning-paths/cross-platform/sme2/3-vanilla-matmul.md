@@ -13,8 +13,8 @@ In this chapter, you will write a by-the-book matrix multiplication in C.
 ### Algorithm description
 
 The vanilla matrix multiplication operation takes two input matrices, A [Al
-lines x Ac columns] and B [Bl lines x Bc columns], to produce an output matrix C
-[Cl lines x Cc columns]. The operation consists in iterating on each row of A
+rows x Ac columns] and B [Bl rows x Bc columns], to produce an output matrix C
+[Cl rows x Cc columns]. The operation consists of iterating on each row of A
 and each column of B, multiplying each element of the A row with its corresponding
 element in the B column then summing all these products, as depicted in figure 2 below.
 
@@ -23,7 +23,7 @@ element in the B column then summing all these products, as depicted in figure 2
 This implies that the A, B and C matrices have some constraints on their
 dimensions:
 
-- A's number of columns need to match B's number of lines: Ac == Bl
+- A's number of columns needs to match B's number of lines: Ac == Bl
 - C will have dimensions Cl == Al and Cc == Bc
 
 You can learn more about matrix multiplication, including its history,
@@ -43,7 +43,7 @@ In this learning path, we will use the following variable names:
 
 ### C implementation
 
-A literal implementation of the text book matrix multiplication algorithm, as
+A literal implementation of the textbook matrix multiplication algorithm, as
 described above, can be found in file ``matmul_vanilla.c``:
 
 ```C
@@ -76,5 +76,5 @@ The pointers to ``matLeft`` and ``matRight`` are marked as ``const`` because
 none of these 2 matrices are modified by ``matmul``.
 
 You now have a reference matrix multiplication function. It will be used later
-on in this learning path to ensure that the assembly version or the intrinsics
-version of the multiplication have been coded with no mistake.
+on in this learning path to ensure that the assembly version and the intrinsics
+version of the multiplication algorithm do not contain errors.

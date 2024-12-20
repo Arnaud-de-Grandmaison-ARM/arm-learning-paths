@@ -20,7 +20,7 @@ performed. The assembly versions have been modified so they coexist nicely with
 the intrinsic versions. In this learning path, the ``preprocess`` function is
 defined in ``preprocess_l_asm.S`` and the outer-product based matrix
 multiplication is in ``matmul_asm_impl.S``. Those 2 functions have been stitched
-together in ``matmul_asm.c`` with the same prototype than the reference
+together in ``matmul_asm.c`` with the same prototype as the reference
 implementation of matrix multiplication, so that a top-level ``matmul_asm`` can
 be called from the ``main`` function:
 
@@ -162,10 +162,10 @@ parameters, to either the arguments supplied on the command line or use default
 value. Depending on the ``M``, ``K``, ``N`` dimension parameters, ``main`` will
 allocate memory for all the matrices and initialize  ``matLeft`` and
 ``matRight`` with random data. The actual matrix multiplication implementation
-is provided thru the ``IMPL`` macro. It will then run the matrix multiplication
+is provided through the ``IMPL`` macro. It will then run the matrix multiplication
 from ``IMPL`` and compute the reference values for the preprocessed matrix as
 well as the result matrix. It then compares the actual values to the reference
-values and report errors (if any). Last, all the memory is de-allocated before
+values and reports errors (if any). Last, all the memory is de-allocated before
 exiting the program with a success or failure return code.
 
 ### Compile and run it

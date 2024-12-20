@@ -11,7 +11,7 @@ just works. This will also serve as your first hands on with the environment
 
 ## Compile the examples
 
-First, compile the example codes with:
+First, compile the example code with:
 
 ```BASH { output_lines="2-19" }
 docker run --rm -v "$PWD:/work" -w /work armswdev/sme2-learning-path:sme2-environment-v1 make
@@ -41,7 +41,7 @@ The above ``make`` command (executed within the docker ``armswdev/sme2-learning-
 - creating the assembly listings for the 4 executables: ``hello.lst``, ``sme2_check.lst``, ``sme2_matmul_asm.lst`` and ``sme2_matmul_intr.lst``
 
 {{% notice Note %}}
-At any point, you can clean the directory from all the files that have been build by invoking ``make clean`` target:
+At any point, you can clean the directory of all the files that have been built by invoking ``make clean`` target:
 
 ```BASH
 $ docker run --rm -v "$PWD:/work" -w /work armswdev/sme2-learning-path:sme2-environment-v1 make clean
@@ -52,7 +52,7 @@ $ docker run --rm -v "$PWD:/work" -w /work armswdev/sme2-learning-path:sme2-envi
 
 The very first program that you should run is the famous "Hello, world !" that
 will let you know that the basics of your environment are in place. The source
-code is in ``hello.c`` and is looking like:
+code is in ``hello.c`` and looks like:
 
 ```C
 #include <stdio.h>
@@ -139,7 +139,7 @@ int main(int argc, char *argv[]) {
 The ``sme2_check`` program will display the SVE (resp. SME) fields of the
 ``ID_AA64PFR0_EL1`` (resp. ``ID_AA64PFR1_EL1``) system registers from the CPU
 and will then check if SVE and SME are available, and finally will switch into
-streaming monde and back from streaming mode. The ``__ARM_FEATURE_SME2`` macro
+streaming mode and back from streaming mode. The ``__ARM_FEATURE_SME2`` macro
 is provided by the compiler when it targets an SME capable target, which is
 specified with the ``-march=armv9.4-a+sme2`` command line option to ``clang`` in
 file ``Makefile``. The ``arm_sme.h`` include file is part of the Arm C library

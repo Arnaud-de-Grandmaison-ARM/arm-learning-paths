@@ -12,18 +12,18 @@ using the intrinsics provided by the compiler.
 ## Matrix multiplication with SME2 intrinsics
 
 *Intrinsics*, also know known as *compiler intrinsics* or *intrinsic functions*
-are functions available to the application developers that the compiler has an
+are functions available to application developers that the compiler has an
 intimate knowledge of. This enables the compiler to either translate that
 function to a very specific instruction and/or to perform specific
 optimizations.
 
-You can lean more about intrinsics on this [wikipedia
+You can lean more about intrinsics in this [wikipedia
 article](https://en.wikipedia.org/wiki/Intrinsic_function).
 
 Using intrinsics allows the programmer to use the very specific instructions
 needed to achieve the required performance while writing in C all the mundane
 code (loops, ...). This gives performance close to what can be reached with hand
-written assembly and is way more maintainable and portable !
+written assembly whilst being significantly more maintainable and portable !
 
 All Arm specific intrinsics are specified in the
 [ACLE](https://github.com/ARM-software/acle) --- Arm C language extension. ACLE
@@ -34,15 +34,15 @@ is supported by the main compilers, most notably [GCC](https://gcc.gnu.org/) and
 
 In the previous page, the assembly language gave the programmer full access to
 the processor features. However, this comes at a cost in complexity and
-maintenance especially when one starts to have to manage large code bases with
-deeply nested function calls. The assembly version is very low level, and does
-not deal properly with the SME state. In a real world large scale software, the
-program will move back and forth from streaming mode, and some streaming mode
-routines will call other streaming mode routines, which means that some state
-(including the ZA storage) needs to be saved and restored. This is hopefully
-defined in the ACLE and supported by the compiler: the programmer *just* has to
-annotate the function with some keywords and set up some registers (see function
-``setup_sme`` in ``misc.c`` for an example). See
+maintenance especially when one has to manage large code bases with deeply
+nested function calls. The assembly version is very low level, and does not deal
+properly with the SME state. In real world large scale software, the program
+will move back and forth from streaming mode, and some streaming mode routines
+will call other streaming mode routines, which means that some state (including
+the ZA storage) needs to be saved and restored. This is defined in the ACLE and
+supported by the compiler: the programmer *just* has to annotate the function
+with some keywords and set up some registers (see function ``setup_sme`` in
+``misc.c`` for an example). See
 [Introduction to streaming and non-streaming mode](https://arm-software.github.io/acle/main/acle.html#controlling-the-use-of-streaming-mode)
 for further details. The rest of this section quotes parts from the ACLE as there is no better way to
 restate the same.
@@ -89,7 +89,7 @@ ACLE provides attributes that specify whether the abstract machine executes stat
 - in streaming mode, in which case they are called “streaming statements”
 - in either mode, in which case they are called “streaming-compatible statements”
 
-SME provides an area of storage called ZA, of size ``SVL.BxSVL.B`` bytes. It
+SME provides an area of storage called ZA, of size ``SVL.B`` x ``SVL.B`` bytes. It
 also provides a processor state bit called ``PSTATE.ZA`` to control whether ZA
 is enabled.
 
@@ -318,25 +318,25 @@ The core of the multiplication is done in 2 parts:
   intrinsic to perform the outer product and accumulation (to tile 0). This
   corresponds exactly to what you saw in figure 2 earlier in the learning path.
   Note again the usage of the ``pMDim`` and ``pNDim`` predicates to deal
-  correctly witht the rows (resp. columns) which are out of bounds.
+  correctly with the rows and columns respectively which are out of bounds.
 
 - storing of the result matrix at lines 27-46. The previous part has computed
   the result of the matrix multiplication for the current tile, which now needs
-  to be written back to memory. this is achieved with a loop (line 29) which
-  will iterate over all rows of the tile: the ``svst1_hor_za32`` intrinsic at
-  lines 35-46 which stores directly from the tile to memory. Note that the loop
-  has been unrolled by a factor of 4 (thus the ``trow += 4`` increment, line 29)
-  and the 4  ``svst1_hor_za32``. Again, the usage of the ``pMDim`` and ``pNDim``
-  predicates permit to deal gracefully with the parts of the tile which are
-  out-of-bound for the destination matrix ``matResult``.
+  to be written back to memory. This is done with the loop at line 29 which will
+  iterate over all rows of the tile: the ``svst1_hor_za32`` intrinsic at lines
+  35-46 stores directly from the tile to memory. Note that the loop has been
+  unrolled by a factor of 4 (thus the ``trow += 4`` increment, line 29) and the
+  4 ``svst1_hor_za32``. Again, the ``pMDim`` and ``pNDim`` predicates deal
+  gracefully with the parts of the tile which are out-of-bound for the
+  destination matrix ``matResult``.
 
 Once again you will note that the usage of the intrinsics made it easy to take
 advantage of the full power of SME2 --- once there is a good undestanding of the
-available SME2 instructions. The predicates enabled to deal elegantly with the
-corner cases. And most importanly, our code will deal with different SVL from
-different hardware implementations without having to be recompiled. It's the
-important concept of *compile-once* / *run-everywhere*, plus the implementations
-that have larger SVL will perform the computation faster (for the same binary).
+available SME2 instructions. The predicates deal elegantly with the corner
+cases. And most importanly, our code will deal with different SVL from different
+hardware implementations without having to be recompiled. It's the important
+concept of *compile-once* / *run-everywhere*, plus the implementations that have
+larger SVL will perform the computation faster (for the same binary).
 
 ### Compile and run
 

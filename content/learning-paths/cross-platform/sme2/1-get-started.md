@@ -15,10 +15,9 @@ path, so you will have to use:
    version >= 18 or [gcc](https://gcc.gnu.org/) versions >= 14. This learning
    path will use ``clang``.
 
- - an emulator to execute code with those new instructions as they are most
-   probably not yet supported by your machine's hardware.
-   In this learning path, we will use the
-   [FVP](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms).
+ - an emulator to execute code with those new instructions. In this learning
+   path, we will use
+   [Arm's Fixed Virtual Platform (FVP) model](https://developer.arm.com/Tools%20and%20Software/Fixed%20Virtual%20Platforms).
 
 
 ## Prerequisites
@@ -30,7 +29,7 @@ This learning path assumes that you have ``git`` and ``docker`` installed on you
 Check that ``git`` is installed on your machine with the following command line in a terminal:
 
 ```BASH { output_lines=2 }
-$ git --version
+git --version
 git version 2.47.1
 ```
 
@@ -47,11 +46,11 @@ brew install git
 
 ### docker
 
-For ease of learning, without any risk of harming you computer setup, the
+For ease of learning, without any risk of harming your computer setup, the
 required compiler and FVP are provided as a docker container that you can fetch
 from the internet to get instantly started. However, the ``Dockerfile`` to build
 the container is available as well should you prefer to build it yourself or
-study how it's build.
+study how it's built.
 
 {{% notice Note %}}
 This learning path should also work without ``docker``, the only assumption is
@@ -66,7 +65,7 @@ docker --version
 Docker version 27.3.1, build ce12230
 ```
 
-If the above command fail with a message similar to "``docker: command not found``"
+If the above command fails with a message similar to "``docker: command not found``"
 then follow the steps from the [docker install guide](https://learn.arm.com/install-guides/docker/).
 Note that you might have to re-login or restart your machine for the changes to be taken into account.
 
@@ -151,7 +150,7 @@ It contains:
   ``sme2-environment.docker`` is the docker receipe to build the container that
   you will use, ``build-my-container.sh`` is the shell script you should use in
   case you want to build the docker container (but you don't have to, ready-made
-  images are made available for you ). Last ``build-all-containers.sh`` is the
+  images are made available for you ). Lastly ``build-all-containers.sh`` is the
   script that was used to create the multi-arch (x86_64 and aarch64 support)
   image for you to download.
 - ``.devcontainer/devcontainer.json`` is a configuration script for VSCode to be
@@ -163,13 +162,13 @@ Change directory to your checkout:
 cd SME2-learning-path.git
 ```
 
-From now on, all instructions in this learning path assumes your current
+From now on, all instructions in this learning path assume your current
 directory is ``SME2-learning-path.git``.
 
 ## Using the environment
 
 Docker provides you with a way to execute commands in a different environment,
-where all necessary tools are available without cluttering you machine. You can:
+where all necessary tools are available without cluttering your machine. You can:
 - use docker directly from the command line, for example when you are working
   from a terminal,
 - configure VSCode to run all the commands in the docker environment.
@@ -208,15 +207,15 @@ Container" menu entry as in figure 1 (it will automatically find and use
 ![example image alt-text#center](VSCode.png "Figure 1. Using the Dev Containers extension")
 
 All your commands will now take place in the container, so no need to prepend
-them with some docker invocation, VSCode handle all this transparently for you.
+them with some docker invocation, VSCode handles all this transparently for you.
 
-In the remaining of this learning path, the shell commands will show the docker
+In the remainder of this learning path, the shell commands will show the docker
 invocation (so readers that don't use VSCode can copy the full command line),
 but you should only use the ``COMMAND ARGUMENTS`` part.
 
 ## Suggested reading
 
-If you are not familiar with matrix multiplication --- or need a refresh ;-) ---
+If you are not familiar with matrix multiplication --- or need a refresh ---
 this [wikipedia article on Matrix
 multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication) is a good
 start.

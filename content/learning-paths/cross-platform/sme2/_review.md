@@ -13,16 +13,15 @@ review:
 
     - questions:
         question: >
-            Why is the ZA storage key to SME2 ?
+            Why is the ZA storage so important for SME2 ?
         answers:
             - It's infinite
             - It holds a 2D view of matrices
         correct_answer: 2
         explanation: >
-            The ZA storage offers a 2D view of part of a matrix, a.k.a a tile. SME offers
-            operation that operate on complete tiles, or on horizontal / vertical slices of
-            the tiles, which is a useful and often used in numerous algorithms. ZA storage
-            is finite and has size SVL x SVL.
+            The ZA storage offers a 2D view of part of a matrix, a.k.a a tile. SME can operate
+            on complete tiles, or on horizontal / vertical slices of the tiles, which is a useful
+            and often used feature in numerous algorithms. ZA storage is finite and has size SVL x SVL.
 
     - questions:
         question: >
